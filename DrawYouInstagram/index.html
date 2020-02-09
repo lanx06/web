@@ -120,6 +120,8 @@
 
 <script>
 	
+	var is_Block=false
+	var is_5=0
 
 	var line_filter=0;
 	var color_filter=1;
@@ -161,7 +163,7 @@
 
 	function button_check() 
 	{
-		make_no_re(posin)
+		
 		posin=rerank(posin)
 
 		
@@ -248,7 +250,7 @@
 
 				level_action(posin,we)
 
-				alert(argument+"id:"+where_is_tage+'\nsearch ['+argument+']'+"friend")
+				alert(argument+" id:"+where_is_tage+'\nsearch ['+argument+']'+"friend")
 			}
 
 		}
@@ -293,8 +295,25 @@
 
 		document.body.removeChild(element);
 	}
-	//只讀50則
-
+	
+	function call_time(argument) 
+	{
+		if (argument.status !=200) 
+	    	{
+	    		var dt = (+new Date())
+				if(is_Block==false && dt- is_5 >10000)
+				{
+					is_Block=true;
+					alert("try it later")
+				}
+	    		console.log("fail")
+	    		is_5=dt
+	    	}else
+	    	{
+	    		is_Block=false	
+	    	}
+	}
+//只讀50則
 	function get_acct_img(argument,count=50,max_id="",save_value,name,nuber) 
 	{
 		var url_acct_img=img_hash
@@ -310,7 +329,7 @@
     	//is_wait.push()
 
         var url=url_acct_img+encodeURIComponent(JSON.stringify(variables));
-		//console.log(url);
+		console.log("get_img_comment");
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET',url);
 	    xhr.onload = function()
@@ -320,18 +339,8 @@
 	    	//console.log(response)
 	    	
 	    	//var save_name=name.toString()
-	    	if (response.status=="fail") 
-	    	{
-				//(get_acct_img(argument,50,'',save_value,name,nuber),wait);
-
-	    		//img_hash=next_url(use_img,url_acct_img);
-	    		//daily_get_img(argument,50,max_id,save_value,name,nuber)
-	    		//console.log("fail")
-	    		
-	    		
-	    		//get_acct_img(argument,50,max_id,save_value,name,nuber)
-	    		return false;
-	    	}
+	    	//console.log(response)
+	    	call_time(xhr);
 	    	if (save_value[nuber]==null) 
 	    	{
 	    		var we =
@@ -344,6 +353,7 @@
 	    	}
 	    	var edges=response.data.user["edge_owner_to_timeline_media"].edges;
 	    	//console.log(name)
+	    	is_Block=false
 	    	for (var i = 0; i < edges.length; i++) 
 	    	{
 	    		var gg=resolve_acct_img(edges[i].node)
@@ -373,10 +383,21 @@
 	    	{
 	    		get_acct_img(argument,50,max_id_next,save_value,name,nuber)
 	    	}
+	    	if (has_next_page==false) 
+	    	{
+	    		//alert("finish")
+	    	}
 	    	
 
 	    }
 	    xhr.send();
+
+    
+    	
+
+	    
+  
+	    
 		// body...
 	}
 	//無限制版
@@ -395,7 +416,7 @@
     	//is_wait.push()
 
         var url=url_acct_img+encodeURIComponent(JSON.stringify(variables));
-		//console.log(url);
+		console.log('over_get_acct_img');
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET',url);
 	    xhr.onload = function()
@@ -405,18 +426,8 @@
 	    	//console.log(response)
 	    	
 	    	//var save_name=name.toString()
-	    	if (response.status=="fail") 
-	    	{
-				//(get_acct_img(argument,50,'',save_value,name,nuber),wait);
-
-	    		//img_hash=next_url(use_img,url_acct_img);
-	    		//daily_get_img(argument,50,max_id,save_value,name,nuber)
-	    		//console.log("fail")
-	    		
-	    		
-	    		//get_acct_img(argument,50,max_id,save_value,name,nuber)
-	    		return false;
-	    	}
+	    	//console.log(response)
+			call_time(xhr);
 	    	if (save_value[nuber]==null) 
 	    	{
 	    		var we =
@@ -429,6 +440,7 @@
 	    	}
 	    	var edges=response.data.user["edge_owner_to_timeline_media"].edges;
 	    	//console.log(name)
+	    	is_Block=false
 	    	for (var i = 0; i < edges.length; i++) 
 	    	{
 	    		var gg=resolve_acct_img(edges[i].node)
@@ -441,6 +453,7 @@
 	    		{
 	    			//console.log(gg.comment_count)
 	    			//console.log(tt)
+
 	    			get_img_comment(gg["shortcode"],50,'',save_value[nuber]["media"][tt]["comment"])
 	    			
 	    			//onsole.log(save_value[nuber]["media"][tt]["comment"])
@@ -458,11 +471,16 @@
 	    	{
 	    		over_get_acct_img(argument,50,max_id_next,save_value,name,nuber)
 
+	    	}if (has_next_page==false) 
+	    	{
+	    		alert("finish")
 	    	}
 	    	
 
 	    }
 	    xhr.send();
+
+
 		// body...
 	}
 	//只讀一次留言
@@ -477,7 +495,7 @@
         'first':50,
         'after':max_id
     	};
-    	//console.log("get_img_comment")
+    	console.log("get_img_comment")
 
         var url=url_img_comment+encodeURIComponent(JSON.stringify(variables));
 		//console.log(url);
@@ -488,22 +506,9 @@
 	    	
 	    	var response=JSON.parse(this.responseText)
 	    	//console.log(response)
-	    	if (response.status=="fail") 
-	    	{
-	    		//SetTimeOut(get_img_comment(argument,50,'',save_value),wait);
-
-	    		//comment_hash=next_url(use_comment,url_img_comment);
-	    		//daily_get_comment(argument,50,max_id,save_value)
-	    		console.log("fail")
-	    		
-				//get_img_comment(argument,50,max_id,save_value)
-			
-	    		
-	    		
-
-	    		return false;
-	    	}
+			call_time(xhr);
 	    	var edges=response.data.shortcode_media.edge_media_to_parent_comment.edges;
+	    	is_Block=false;
 	    	for (var i = 0; i < edges.length; i++) 
 	    	{
 
@@ -531,6 +536,7 @@
 	    	
 	    }
 	    xhr.send();
+
 	}
 	function over_get_img_comment(argument,count=50,max_id="",save_value,) 
 	{
@@ -543,7 +549,7 @@
         'first':50,
         'after':max_id
     	};
-    	console.log("get_img_comment")
+    	console.log("over_get_img_comment")
 
         var url=url_img_comment+encodeURIComponent(JSON.stringify(variables));
 		console.log(url);
@@ -554,22 +560,10 @@
 	    	
 	    	var response=JSON.parse(this.responseText)
 	    	//console.log(response)
-	    	if (response.status=="fail") 
-	    	{
-	    		//SetTimeOut(get_img_comment(argument,50,'',save_value),wait);
-
-	    		//comment_hash=next_url(use_comment,url_img_comment);
-	    		//daily_get_comment(argument,50,max_id,save_value)
-	    		//console.log("fail")
-	    		
-				//get_img_comment(argument,50,max_id,save_value)
-			
-	    		
-	    		
-
-	    		return false;
-	    	}
+	    	//console.log(response)
+	    	call_time(xhr);
 	    	var edges=response.data.shortcode_media.edge_media_to_parent_comment.edges;
+	    	is_Block=false
 	    	for (var i = 0; i < edges.length; i++) 
 	    	{
 
@@ -597,6 +591,8 @@
 	    	
 	    }
 	    xhr.send();
+
+    
 	}
 
 
@@ -605,6 +601,7 @@
 	function resolve_media_comment(media)
 	{	
 		var recomment_txet=[];
+
 		if(media["edge_threaded_comments"]["edges"].length !=0)
 		{
 
@@ -699,7 +696,7 @@
 	}
 	function get_user_by_name(argument) {
 		var url="https://www.instagram.com/"+argument.toString();
-
+		console.log("get_user_by_name")
 		//console.log(url);
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET',url);
