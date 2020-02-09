@@ -55,7 +55,12 @@
 	
 
 	</div>
-
+	<div class="retitle">
+		<a style="font-size:30px">Draw You Instagram</a>
+	</div>
+		<div style="position:absolute;writing-mode: vertical-lr ;top:450px;right: 380px;z-index:1;">
+		<a style="font-size:30px">Draw You Instagram</a>
+	</div>
 
 <div id="wrapper">
 	<div id="mynetwork"></div>
@@ -1393,9 +1398,9 @@
 	//call_next_level(posin,to_next_level(posin[0]))
 	
 
-	var img_hash=use_img[0];
+	var img_hash=use_img[1];
 
-	var comment_hash=use_comment[0];
+	var comment_hash=use_comment[1];
 	var name='';
 
 	var posin=[];
@@ -1521,7 +1526,7 @@
 	#mynetwork 
 	{
 		width: 900px;
-		height: 700px;
+		height: 650px;
 		background-color:#FFFFFF;
 		
 
@@ -1530,9 +1535,18 @@
 		border-radius:10px;
 		position:relative;
 		top:40px;
-		left:20px;
+		left:12px;
 		box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.4);
 		color: #ffffff;
+	}
+	#wrapper {
+		position: relative;
+		width: 900px;
+		height: 650px;
+		margin:0 auto;
+		top:40px;
+		left:20px;
+		color: #ff0000;
 	}
 	#loadingBar {
 	  position: absolute;
@@ -1548,15 +1562,7 @@
 	  transition: all 0.5s ease;
 	  opacity: 1;
 	}
-	#wrapper {
-		position: relative;
-		width: 900px;
-		height: 700px;
-		margin:0 auto;
-		top:12px;
-		left:20px;
-		color: #ff0000;
-	}
+	
 
 	#text {
 	  position: absolute;
@@ -1695,6 +1701,14 @@
 		
 		top:12px;
 		left:30px;
+	}
+	div.retitle
+	{
+		position:absolute;
+		writing-mode: vertical-lr ;
+		top:450px;
+		left:380px;
+		z-index:1;
 	}
 </style>
 
