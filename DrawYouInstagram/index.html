@@ -8,11 +8,13 @@
 <body style="background-image: linear-gradient(to top, #3f51b1 0%, #5a55ae 13%, #7b5fac 25%, #8f6aae 38%, #a86aa4 50%, #cc6b8e 62%, #f18271 75%, #f3a469 87%, #f7c978 100%);">
 	<div class="title">
 		<a style="font-size:30px">Draw You Instagram</a>
+		
 	</div>
 	<div class="main">
 		<div class="input">
 			<a style="font-size:28px;">Enter account name or id：<a/><input id="input1" placeholder="" value="">
 			<input type="Submit" id="button1" value="search" onclick="add_posin()">
+			
 			<br/>
 			<br/>
 			<br/>
@@ -30,15 +32,21 @@
 			<br/>
 			color_filter:<input type="range" id="range2" value="10" max="100"min="0"step="1"onchange="range_change(2)"oninput="change_value(2)">
 			<a id="label2">10</a>
-
+			
 			<br/>
 			<a id="max2">max</a>
 			<br/>
+
+			line_length:<input type="range" id="range3" value="130" max="500"min="20"step="1"onchange="range_change(3)"oninput="change_value(3)">
+			<a id="label3">130</a>
+			<br/>
+			<a id="max3">max</a>
+			<br/>
 		</div>
-		<div  id="text"style="overflow:scroll;width: 350px;height: 200px;position:absolute;top:80px;left:450px;z-index:1; font-size:15px">
-			
-			<p>use id to search = search account friend</p>
+		<div  id="text"style="overflow:scroll;width: 350px;height: 230px;position:absolute;top:80px;left:450px;z-index:1; font-size:15px">
 			<p>use name to search = search account </p>
+			<p>use id to search = search account friend</p>
+			
 		</div>
 
 		<div class="button">
@@ -79,7 +87,7 @@
 		
 		top:100px;
 		left:30px;">
-		<a>e-mail:x065p4mp6@gmail.com</a>
+		<a style="left: 5px">e-mail:x065p4mp6@gmail.com</a>
 	</div>
 </body>
 
@@ -145,7 +153,10 @@
 	var is_5=0
 
 	var line_filter=0;
-	var color_filter=1;
+	var color_filter=0;
+	var line_length=0;
+	var can_finsh=true;
+	var is_one=false;
 
 	function change_value(nuber) 
 	{
@@ -165,6 +176,7 @@
 		//console.log("on")
 		line_filter=document.getElementById("range1").value;
 		color_filter=document.getElementById("range2").value;
+		line_length=Number(document.getElementById("range3").value);
 		// body...
 	}
 	function range_change(nuber) 
@@ -208,6 +220,10 @@
 			  //message => alert(message)
 			);
 		}
+		if (posin.length==0) 
+		{
+			alert("no account to draw")
+		}
 
 		
 		
@@ -238,9 +254,10 @@
 			{
 				var we=to_next_level(posin[Number(argument)]);
 				we=call_next_level(posin,we);
-
+				can_finsh=true
 				level_action(posin,we);
 				alert('search id：'+argument+" friend")
+				is_one=true;
 			}
 			catch
 			{
@@ -267,16 +284,17 @@
 			if (where_is_tage==-1) 
 			{
 				get_user_by_name(argument)
-
-				alert("search account:"+argument)
+				can_finsh=true;
+				//alert("fail")
 			}else
 			{
+				is_one=false;
 				//console.log(where_is_tage)
 				var we=to_next_level(posin[where_is_tage])
 				we=call_next_level(posin,we)
 
 				level_action(posin,we)
-
+				can_finsh=false;
 				alert(argument+" id:"+where_is_tage+'\nsearch ['+argument+']'+"friend")
 			}
 
@@ -410,7 +428,7 @@
 	    	{
 	    		get_acct_img(argument,50,max_id_next,save_value,name,nuber)
 	    	}
-	    	if (has_next_page==false) 
+	    	if (has_next_page==false&&is_one==true) 
 	    	{
 	    		//alert("finish")
 	    	}
@@ -489,6 +507,10 @@
 
 
 	    	}
+	    	if (edges.length==0) 
+	    	{
+	    		//alert("fail")
+	    	}
 	    	
 	    	var has_next_page= response.data.user["edge_owner_to_timeline_media"]["page_info"]["has_next_page"]
 
@@ -498,7 +520,7 @@
 	    	{
 	    		over_get_acct_img(argument,50,max_id_next,save_value,name,nuber)
 
-	    	}if (has_next_page==false) 
+	    	}if (has_next_page==false &&is_one==true) 
 	    	{
 	    		alert("finish")
 	    	}
@@ -1311,7 +1333,7 @@
 				//互相吸引程度
 				centralGravity: 0.005,
 				//線的長度
-				springLength: 100,
+				springLength: line_length,
 				//線的彎曲硬度
 				springConstant: 0.18
 			},
@@ -1700,7 +1722,7 @@
 		margin:0 auto;
 		
 		top:12px;
-		left:150px;
+		left:130px;
 		height: 
 
 	}
@@ -1710,7 +1732,7 @@
 		position:relative;
 		margin:0 auto;
 		
-		top:12px;
+		top:0px;
 		left:30px;
 
 	}
@@ -1725,7 +1747,20 @@
 		top:12px;
 		left:30px;
 	}
+	.loader {
+		border: 5px solid #f3f3f3; /* Light grey */
+		border-top: 5px solid #3498db; /* Blue */
+		border-radius: 90%;
+		width: 15px;
+		height: 15px;
+		animation: spin 1s linear infinite;
 
+	}
+
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}	
 </style>
 
 </html>
