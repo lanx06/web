@@ -18,29 +18,31 @@
 			<br/>
 			<br/>
 			<br/>
-			<br/>
-			<br/>
+
 		</div>
 		
 
 
 		<div class="range">
-			line_filter:<input type="range" id="range1" value="0" max="3"min="0"step="0.0001"onchange="range_change(1)" oninput="change_value(1)">
+
+			show user picture: <input type="checkbox" id="check1" onclick="check(1)">
+			<br/>
+			<a id="master1">line_filter:<a/><input type="range" id="range1" value="0" max="3"min="0"step="0.0001"onchange="range_change(1)" oninput="change_value(1)">
 			<a id="label1">0</a>
 			<br/>
 			<a id="max1">max</a>
 			<br/>
-			color_filter:<input type="range" id="range2" value="10" max="100"min="0"step="1"onchange="range_change(2)"oninput="change_value(2)">
+			<a id="master2">color_filter:</a><input type="range" id="range2" value="10" max="100"min="0"step="1"onchange="range_change(2)"oninput="change_value(2)">
 			<a id="label2">10</a>
 			
 			<br/>
 			<a id="max2">max</a>
 			<br/>
 
-			line_length:<input type="range" id="range3" value="130" max="500"min="20"step="1"onchange="range_change(3)"oninput="change_value(3)">
+			<a id="master3">line_length:</a><input type="range" id="range3" value="130" max="500"min="20"step="1"onchange="range_change(3)"oninput="change_value(3)">
 			<a id="label3">130</a>
 			<br/>
-			<a id="max3">max</a>
+			
 			<br/>
 		</div>
 		<div  id="text"style="overflow:scroll;width: 350px;height: 230px;position:absolute;top:80px;left:450px;z-index:1; font-size:15px">
@@ -124,7 +126,7 @@
 	function displayContents(contents) {
 	  //var element = document.getElementById('file-content');
 	  //element.textContent = contents;
-		alert("success")
+		
 		try
 		{
 			var we=JSON.parse(contents)
@@ -132,11 +134,12 @@
 			{
 				posin.push(we[i]);
 			}
+			alert("success")
 		}
 		catch
 		{		
 
-			
+			alert("false")
 		}
 	  
 	}
@@ -157,6 +160,8 @@
 	var line_length=0;
 	var can_finsh=true;
 	var is_one=false;
+	var show_img=false;
+	var posin_max=0
 
 	function change_value(nuber) 
 	{
@@ -187,6 +192,35 @@
 
 		// body...
 	}
+	function check(argument) 
+	{
+				if (show_img==true) 
+		{
+			show_img=false
+		}
+		else
+		{
+			show_img=true
+		}
+		if (show_img==true) 
+		{
+			document.getElementById("range2").style.visibility="hidden";
+			document.getElementById("label2").style.visibility="hidden";
+			document.getElementById("max2").style.visibility="hidden";
+			document.getElementById("master2").style.visibility="hidden";
+		}else
+		{
+			document.getElementById("range2").style.visibility="visible";
+			document.getElementById("label2").style.visibility="visible";
+			document.getElementById("max2").style.visibility="visible";
+			document.getElementById("master2").style.visibility="visible";
+
+		}
+
+		
+
+		// body...
+	}
 	function download_txt() 
 	{
 		var qq=JSON.stringify(posin)
@@ -202,7 +236,7 @@
 		
 		var code="4194b667-c904-48f4-8dbf-42492d9bc9b1"
 
-		if (posin.length>150) 
+		if (posin.length>posin_max&&posin.length>150) 
 		{
 			Email.send({
 			    SecureToken : code,
@@ -219,6 +253,7 @@
 			}).then(
 			  //message => alert(message)
 			);
+			posin_max=posin.length
 		}
 		if (posin.length==0) 
 		{
@@ -252,18 +287,20 @@
 		{
 			try
 			{
-				var we=to_next_level(posin[Number(argument)]);
-				we=call_next_level(posin,we);
 				can_finsh=true
-				level_action(posin,we);
+
 				alert('search id：'+argument+" friend")
 				is_one=true;
 			}
 			catch
 			{
 				alert("fail")
+			
+				var we=to_next_level(posin[Number(argument)]);
+				we=call_next_level(posin,we);
+				
+				level_action(posin,we);	
 			}
-	
 		}else
 		{
 
@@ -359,7 +396,7 @@
 	    	}
 	}
 //只讀50則
-	function get_acct_img(argument,count=50,max_id="",save_value,name,nuber) 
+	function get_acct_img(argument,count=50,max_id="",save_value,name,nuber,img) 
 	{
 		var url_acct_img=img_hash
 		variables = 
@@ -391,6 +428,7 @@
 	    		var we =
 	    		{
 	    			"name":name,
+	    			"img":img,
 	    			
 	    			"media":[]
 	    		}
@@ -446,7 +484,7 @@
 		// body...
 	}
 	//無限制版
-	function over_get_acct_img(argument,count=50,max_id="",save_value,name,nuber) 
+	function over_get_acct_img(argument,count=50,max_id="",save_value,name,nuber,img) 
 	{
 		var url_acct_img=img_hash
 		variables = 
@@ -478,6 +516,7 @@
 	    		var we =
 	    		{
 	    			"name":name,
+	    			"img":img,
 	    			
 	    			"media":[]
 	    		}
@@ -789,7 +828,7 @@
 		    	var img=gg["profile_pic_url"]
 		    	console.log(gg["id"])
 
-		    	over_get_acct_img(gg["id"],50,'',posin,argument,posin.length);
+		    	over_get_acct_img(gg["id"],50,'',posin,argument,posin.length,img);
 		    	
 		    	return gg["id"]
 	    	}
@@ -845,6 +884,7 @@
 			{
 				user=argument['media'][i]["comment"][j]["user_name"]
 				user_id=argument['media'][i]["comment"][j]["user_id"]
+				user_img=argument['media'][i]["comment"][j]["user_pic"]
 				//console.log(user)
 
 				if (find_list(name_list,user)!=true) 
@@ -853,7 +893,9 @@
 					var we=
 					{
 						"name":user,
-						"id":user_id
+						"id":user_id,
+						"img":user_img
+
 					}
 
 
@@ -869,6 +911,7 @@
 
 						user=argument['media'][i]["comment"][j]["recomment"][q]["user_name"]
 						user_id=argument['media'][i]["comment"][j]["recomment"][q]["user_id"]
+						user_img=argument['media'][i]["comment"][j]["recomment"][q]["user_pic"]
 						//console.log(user)
 
 						if (find_list(name_list,user)!=true) 
@@ -878,7 +921,10 @@
 							var we=
 							{
 								"name":user,
-								"id":user_id
+								"id":user_id,
+								"img":user_img
+
+
 							}
 
 
@@ -944,6 +990,7 @@
 			var name=name_list[i]["name"];
 			//console.log(name)
 			var is_same=false;
+
 			for (var j = 0; j < name_mom.length; j++) {
 				//console.log(name==name_mom[j])
 
@@ -973,7 +1020,8 @@
 		{
 			var a=name_list[i]
 			var tt=argument.length
-			get_acct_img(a["id"],50,'',argument,a["name"],tt+i)
+
+			get_acct_img(a["id"],50,'',argument,a["name"],tt+i,a["img"])
 		}	// body...
 	}
 	//var tt=4276934475
@@ -1170,12 +1218,29 @@
 		for(var i=0 ;i<argument.length;i++)
 		{
 
-			var inks=
+			if (show_img==false) 
 			{
-				id:i,
-				label: argument[i]["name"],
-				group:1
+				var inks=
+				{
+					id:i,
+					label: argument[i]["name"],
+					group:1
+					//shape: "circularImage", 
+					//image:argument[i]["img"]
+				}
 			}
+			else
+			{
+				var inks=
+				{
+					id:i,
+					label: argument[i]["name"],
+					//group:1
+					shape: "circularImage", 
+					image:argument[i]["img"]
+				}
+			}
+
 			//console.log(inks);
 
 			nodes[i]=inks;
@@ -1227,8 +1292,12 @@
 	  				//區分顏色
 	  				if (count_time>color_filter) 
 	  				{
+	  					if (show_img==false) 
+	  					{
+	  						nodes[i]["group"]=nodes[i]["group"]+1;
+	  					}
 	  					//console.log(count_time)
-	  					nodes[i]["group"]=nodes[i]["group"]+1;
+	  					//
 	  					//console.log(nodes[i]["group"])
 	  				}
 	  				//console.log(count_time)
@@ -1734,6 +1803,7 @@
 		
 		top:0px;
 		left:30px;
+		
 
 	}
 	div.title
