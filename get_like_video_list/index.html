@@ -11,8 +11,8 @@
 	   * See instructions for running APIs Explorer code samples locally:
 	   * https://developers.google.com/explorer-help/guides/code_samples#javascript
 	   */
-	   var cross="https://cors-anywhere.herokuapp.com/"
-
+	   var  key="AIzaSyCL4X4S65vcfdR2NvKz2_oXFW0770vjuEo"
+	   var CLIENT_ID="418251026637-akl2fmmfrlqr5l8a0qhjarh5vn5lh3h6.apps.googleusercontent.com"
 	  function authenticate() {
 	    return gapi.auth2.getAuthInstance()
 	        .signIn({scope: "https://www.googleapis.com/auth/youtube.readonly"})
@@ -20,7 +20,7 @@
 	              function(err) { console.error("Error signing in", err); });
 	  }
 	  function loadClient() {
-	    gapi.client.setApiKey("AIzaSyCL4X4S65vcfdR2NvKz2_oXFW0770vjuEo");
+	    gapi.client.setApiKey(key);
 	    return gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
 	        .then(function() { console.log("GAPI client loaded for API"); },
 	              function(err) { console.error("Error loading GAPI client for API", err); });
@@ -39,7 +39,7 @@
 	              function(err) { console.error("Execute error", err); });
 	  }
 	  gapi.load("client:auth2", function() {
-	    gapi.auth2.init({client_id: "418251026637-e4oidsn6hdl9f3sl50g00onr8u779kd6.apps.googleusercontent.com"});
+	    gapi.auth2.init({client_id: "YOUR_CLIENT_ID"});
 	  });
 	</script>
 	<button onclick="authenticate().then(loadClient)">authorize and load</button>
@@ -48,7 +48,7 @@
 	<!--
 	id
 	418251026637-akl2fmmfrlqr5l8a0qhjarh5vn5lh3h6.apps.googleusercontent.com
-
+	418251026637-e4oidsn6hdl9f3sl50g00onr8u779kd6.apps.googleusercontent.com
 	code
 	6-LFqlp6As_MPwpwSbdvh7Vo
 
