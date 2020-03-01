@@ -14,7 +14,7 @@
 	   var  key="AIzaSyDQZfVUlCcpKhcyugfLkbPsNA7Ud1zR3X4"
 	   var CLIENT_ID="312783717072-m6s91enm4lvqfc4uts9diui7u9b07706.apps.googleusercontent.com"
 	  function authenticate() {
-	    return gapi.auth2.getAuthInstance()
+	    return gapi.auth2.getAuthInstance(key)
 	        .signIn({scope: "https://www.googleapis.com/auth/youtube.readonly"})
 	        .then(function() { console.log("Sign-in successful"); },
 	              function(err) { console.error("Error signing in", err); });
@@ -39,7 +39,7 @@
 	              function(err) { console.error("Execute error", err); });
 	  }
 	  gapi.load("client:auth2", function() {
-	    gapi.auth2.init({client_id: "YOUR_CLIENT_ID"});
+	    gapi.auth2.init({client_id: CLIENT_ID});
 	  });
 	</script>
 	<button onclick="authenticate().then(loadClient)">authorize and load</button>
