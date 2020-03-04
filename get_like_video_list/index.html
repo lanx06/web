@@ -4,42 +4,44 @@
 
 <head>
 
-	<script src="https://apis.google.com/js/api.js"></script>
+<script src="https://apis.google.com/js/api.js"></script>
 	<script>
 	  /**
 	   * Sample JavaScript code for youtube.videos.list
 	   * See instructions for running APIs Explorer code samples locally:
 	   * https://developers.google.com/explorer-help/guides/code_samples#javascript
 	   */
-	   var  key_c="AIzaSyCL4X4S65vcfdR2NvKz2_oXFW0770vjuEo"
-	   var id_c="418251026637-akl2fmmfrlqr5l8a0qhjarh5vn5lh3h6.apps.googleusercontent.com"
-	  	function authenticate() {
+	   var my_key="AIzaSyCL4X4S65vcfdR2NvKz2_oXFW0770vjuEo"
+	   var my_oath="418251026637-akl2fmmfrlqr5l8a0qhjarh5vn5lh3h6.apps.googleusercontent.com"
+
+	  function authenticate() {
 	    return gapi.auth2.getAuthInstance()
 	        .signIn({scope: "https://www.googleapis.com/auth/youtube.readonly"})
 	        .then(function() { console.log("Sign-in successful"); },
 	              function(err) { console.error("Error signing in", err); });
-	  	}
-	  	function loadClient() {
-	    gapi.client.setApiKey(key_c);
+	  }
+	  function loadClient() {
+	    gapi.client.setApiKey(key);
 	    return gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
 	        .then(function() { console.log("GAPI client loaded for API"); },
 	              function(err) { console.error("Error loading GAPI client for API", err); });
-	  	}
+	  }
 	  // Make sure the client is loaded and sign-in is complete before calling this method.
-	 	 function execute() {
+	  function execute() {
 	    return gapi.client.youtube.videos.list({
 	      "part": "statistics",
 	      "maxResults": 50,
 	      "myRating": "like"
-	    }).then(function(response) {
+	    })
+	        .then(function(response) {
 	                // Handle the results here (response.result has the parsed body).
 	                console.log("Response", response);
 	              },
 	              function(err) { console.error("Execute error", err); });
-	  	}
-	  	gapi.load("client:auth2", function() {
-	    gapi.auth2.init({client_id:id_c});
-	  	});
+	  }
+	  gapi.load("client:auth2", function() {
+	    gapi.auth2.init({client_id:my_oath});
+	  });
 	</script>
 	<button onclick="authenticate().then(loadClient)">authorize and load</button>
 	<button onclick="execute()">execute</button>
@@ -47,18 +49,15 @@
 	<!--
 	id
 	418251026637-akl2fmmfrlqr5l8a0qhjarh5vn5lh3h6.apps.googleusercontent.com
-	418251026637-e4oidsn6hdl9f3sl50g00onr8u779kd6.apps.googleusercontent.com
+
 	code
 	6-LFqlp6As_MPwpwSbdvh7Vo
 
 	key
-	AIzaSyCL4X4S65vcfdR2NvKz2_oXFW0770vjuEo
+	AIzaSyAZ2nPKYagV6hqw_DPmpXbAG7GNONXApBY
 	-->
 </head>
 <body>
 
 </body>
 </html>
-<!--
-"Not a valid origin for the client: https://lanx06.github.io has not been whitelisted for client ID 312783717072-m6s91enm4lvqfc4uts9diui7u9b07706.apps.googleusercontent.com. Please go to https://console.developers.google.com/ and whitelist this origin for your project's client ID."
--->
