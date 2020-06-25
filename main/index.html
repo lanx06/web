@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>x06lan</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+	<script src="https://www.vantajs.com/vendor/three.r95.min.js"></script>
+	<script src="https://www.vantajs.com/dist/vanta.globe.min.js"></script>
+	<script src="https://www.vantajs.com/dist/vanta.birds.min.js"></script>
+	<script src="https://vuejs.org/js/vue.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unpkg.com/@progress/kendo-theme-default@latest/dist/all.css" />
+	<script type="text/javascript" src="./index.js"></script> 
+</head>
+<body class="b" >
+	<div class="introduction">
+		<div id="vanta" style="color: #ffffff">
+			<div class="header">
+				<h1 class="title">
+					{{name}}
+				
+				</h1>
+				<h2 style="margin-left: 10px">
+					{{innrtext}}
+				</h2>
+			</div>
+			
+			
+		</div>
+		
+	</div>
+	<div class="skill_tool">
+			
+			<h2 class="title">
+				skill
+			</h2>
+			
+
+		
+		
+	</div>
+	<div class="work">
+		
+	</div>
+
+<script type="text/javascript">
+backgroundColor="#200F2D"
+$("."+"b")[0].style.backgroundColor=backgroundColor
+VANTA.GLOBE({
+el: "#vanta",
+	mouseControls: true,
+	touchControls: true,
+	minHeight: 400.00,
+	minWidth: 200.00,
+	scale: 1.00,
+	scaleMobile: 1.00,
+	color: 0x00ff00,
+	backgroundColor:backgroundColor
+})
+VANTA.BIRDS({
+	el: ".skill_",
+	mouseControls: true,
+	touchControls: true,
+	minHeight:1600.00,
+	minWidth: 800.00,
+	scale: 1.00,
+	scaleMobile: 1.00,
+
+
+	quantity:1,
+	birdSize:0.5,
+	wingSpan:30,
+	speedLimit:5,
+	separation:20,
+	alignment:20,
+	cohesion:20,
+
+	backgroundColor:backgroundColor
+
+
+})
+var demo = new Vue({  
+	el: '.header',
+	data: {
+		name:"x06lan",
+		innrtext:"熱衷於codeing,剛接觸機器學習"
+
+	}
+})
+
+add_img();
+</script>
+<style type="text/css">
+#vanta
+{
+	height: 400px;
+}
+.header
+{
+	margin:0px auto;
+	width: 800px;
+	padding-top: 50px;
+	padding-left: 20px;
+}
+.title
+{
+	font-weight: 70px;
+	font-size: 60px;
+	margin-top: 50px
+	margin-bottom: 10px;
+	color: #ffffff
+}
+.skill_tool 
+{
+	
+	width:810px;
+	margin:0px auto;
+
+}
+.img_div
+{
+	display: inline-table;
+	margin-top: 20px;
+	margin-left: 10px;
+	color: #ffffff;
+	z-index: 20;
+}
+.skill_tool img
+{
+	width: 150px;
+	height: 150px;
+	border-radius: 20%;
+	background-color: #ffffff;
+	z-index: 20;
+	/*
+	border-width: 50px;
+	border-color: #ffffff
+	*/
+}
+
+</style>
+</body>
+</html>
